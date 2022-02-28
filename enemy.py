@@ -3,6 +3,7 @@ import sprites
 
 
 class EnemyStanding(pygame.sprite.Sprite):
+    # класс с неподвижным врагом
     def __init__(self, x, y, hp, letter):
         super().__init__(sprites.all_sprites)
         self.letter = letter
@@ -20,6 +21,7 @@ class EnemyStanding(pygame.sprite.Sprite):
 
 
 class EnemyWalking(sprites.AnimatedSprite):
+    # класс с идущим врагом
     def __init__(self, x, y, hp, letter):
         super().__init__(pygame.image.load(f'data/enemies/sprite_sheet_mov_e{letter}.png'), 4, 1)
         self.letter = letter
@@ -42,6 +44,7 @@ class EnemyWalking(sprites.AnimatedSprite):
 
 
 class EnemyBeating(sprites.AnimatedSprite):
+    # класс с атакующим врагом
     def __init__(self, x, y, hp, letter):
         super().__init__(pygame.image.load(f'data/enemies/sprite_sheet_kick_e{letter}.png'), 3, 1)
         self.letter = letter
