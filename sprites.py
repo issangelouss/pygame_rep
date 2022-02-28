@@ -1,11 +1,13 @@
 import pygame
 import random
 
+# последние буквы в названиях спрайтов врагов: соответственно "helmet" (враг со шлемом), "glasses" (враг в ярких очках), "bully" (враг-громила)
 letters = ['h', 'g', 'b']
 all_sprites = pygame.sprite.Group()
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
+    # класс для создания анимированного спрайта
     def __init__(self, sheet, columns, rows):
         super().__init__(all_sprites)
         self.frames = []
@@ -28,6 +30,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
 
 class Potion(pygame.sprite.Sprite):
+    # класс лекарства
     def __init__(self):
         super().__init__(all_sprites)
         self.image = pygame.image.load('data/other_sprites/potion.png')
