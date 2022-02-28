@@ -16,6 +16,7 @@ select = show_result = running = show = False
 
 
 class Button:
+    # реализация кнопок
     def __init__(self, w, h):
         self.width = w
         self.height = h
@@ -28,10 +29,12 @@ class Button:
             pygame.draw.rect(screen, '#926eae', (x, y, self.width, self.height))
             if click[0] == 1:
                 if action == choose_bckgr:
+                    # т.к. доп.аргумент num_bckgr
                     choose_bckgr(num_bckgr)
                 else:
                     action()
         else:
+            # если курсор на кнопке, она подсвечивается. в обратном случае нет
             pygame.draw.rect(screen, '#876c99', (x, y, self.width, self.height))
 
         print_text(message, x + 10, y + 10, font_size)
@@ -44,32 +47,38 @@ def print_text(message, x, y, font_size=30):
 
 
 def back_from_select():
+    # выход из окна выбора уровня
     global select
     select = False
 
 
 def back_from_results():
+    # выход из окна с результатами
     global show_result
     show_result = False
 
 
 def play_again():
+    # запуск игрового цикла для игры снова
     global show_result
     show_result = False
     game_cycle()
 
 
 def quit_game():
+    # выход из игры
     global show
     show = False
 
 
 def choose_bckgr(num_bckgr):
+    # выбор фона
     global background
     background = num_bckgr
 
 
 def show_menu():
+    # функция для показа главного меню
     global show
     menu_background = pygame.image.load('data/backgrounds/menu_background.png')
     start_btn = Button(150, 50)
@@ -93,6 +102,7 @@ def show_menu():
 
 
 def select_level():
+    # функция для показа окна выбора уровня
     global background, select
     select_lvl_background = pygame.image.load('data/backgrounds/menu_background.png')
     back_btn = Button(50, 50)
@@ -110,6 +120,7 @@ def select_level():
         screen.blit(select_lvl_background, (0, 0))
         back_btn.draw(5, 5, 'B', back_from_select)
         print(background)
+        # выбранный фон обводится в желтый прямоугольник
         if background == '1':
             pygame.draw.rect(screen, '#ffd800', (68, 18, 254, 183))
         elif background == '2':
@@ -131,6 +142,7 @@ def select_level():
 
 
 def results(score):
+    # функция для показа окна с результатами
     global high_score, show_result, running
     menu_btn = Button(300, 50)
     play_again_btn = Button(300, 50)
@@ -143,6 +155,7 @@ def results(score):
                 show_result = False
         pygame.draw.rect(screen, '#876c99', (0, 0, 700, 500))
         if score > high_score:
+            # перезапись рекорда
             high_score = score
         print_text(f'YOUR RESULT: {score}', 300, 175)
         print_text(f'HIGHSCORE: {high_score}', 300, 225)
@@ -153,6 +166,7 @@ def results(score):
 
 
 def game_cycle():
+    # функция для показа окна с игрой
     global background, running
     main_hero = MainHeroStanding(200, 200, 3)
     enemy = EnemyStanding(1000, 200, 3, 'h')
@@ -183,6 +197,7 @@ def game_cycle():
                     if event.button == 1:
                         main_hero = MainHeroBeating(x, y, hp)
                         if enemy.rect.colliderect(main_hero.rect):
+                            # удар по врагу
                             if enemy.hp == 1:
                                 score += 100
                             enemy.hp -= 1
@@ -197,7 +212,7 @@ def game_cycle():
                     main_hero = main_hero.die()
                     if event.key in [pygame.K_w, pygame.K_d, pygame.K_s, pygame.K_a]:
                         r_flag = l_flag = u_flag = d_flag = False
-
+        # гг идет даже при зажатии клавиши благодаря флагам
         if r_flag:
             main_hero.moving_right()
         elif l_flag:
@@ -208,6 +223,7 @@ def game_cycle():
             main_hero.moving_down()
 
         if not enemy.rect.colliderect(main_hero.rect):
+            # враг не останавливается пока не дойдет до гг
             beat = 0
             if enemy.__class__.__name__ in ['EnemyStanding', 'EnemyBeating']:
                 if enemy.hp != 0:
@@ -218,6 +234,7 @@ def game_cycle():
             else:
                 enemy.moving()
         else:
+            # подойдя к врагу, враг бьет только один раз, чтобы выиграть было реально
             if beat == 0:
                 if enemy.hp != 0:
                     x, y, hp, l = enemy.die()
@@ -241,9 +258,11 @@ def game_cycle():
             enemy = enemy.die()
 
         if main_hero.hp == 1 and not potion:
+            # когда у гг остается 1 хп, появляется лекарство
             potion = Potion()
 
         if potion:
+            # при столкновении с лекарством гг получает 1 хп
             if potion.rect.colliderect(main_hero.rect):
                 potion.kill()
                 main_hero.hp += 1
@@ -275,6 +294,7 @@ def game_cycle():
 
 
 show_menu()
+#запись новых результатов
 f = open('data/settings.txt', 'w')
 f.write(background)
 f.write('\n')
