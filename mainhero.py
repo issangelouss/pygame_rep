@@ -3,6 +3,7 @@ import sprites
 
 
 class MainHeroStanding(pygame.sprite.Sprite):
+    # класс с неподвижным гг
     def __init__(self, x, y, hp):
         super().__init__(sprites.all_sprites)
         self.image = pygame.image.load('data/main_hero/mainhero_stand.png')
@@ -17,6 +18,7 @@ class MainHeroStanding(pygame.sprite.Sprite):
 
 
 class MainHeroWalking(sprites.AnimatedSprite):
+    # класс с идущим гг
     def __init__(self, x, y, hp):
         super().__init__(pygame.image.load('data/main_hero/sprite_sheet_mov.png'), 3, 1)
         self.rect = self.image.get_rect()
@@ -52,6 +54,7 @@ class MainHeroWalking(sprites.AnimatedSprite):
 
 
 class MainHeroBeating(sprites.AnimatedSprite):
+    # класс с атакующим гг
     def __init__(self, x, y, hp):
         super().__init__(pygame.image.load('data/main_hero/sprite_sheet_kick.png'), 3, 1)
         self.rect = self.image.get_rect()
@@ -64,6 +67,7 @@ class MainHeroBeating(sprites.AnimatedSprite):
 
 
 class MainHeroBlock(pygame.sprite.Sprite):
+    # класс с блоком гг
     def __init__(self, x, y, hp):
         super().__init__(sprites.all_sprites)
         self.image = pygame.image.load('data/main_hero/mainhero_block.png')
